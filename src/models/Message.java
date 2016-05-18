@@ -14,11 +14,16 @@ public class Message {
     private int checked;
     private int fromId;
     private int toId;
+    private int isSecret;
 
     @Basic
     @Column(name = "checked")
     public int getChecked() {
         return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
     }
 
     @Id
@@ -49,11 +54,6 @@ public class Message {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-
-    public void setChecked(int checked) {
-        this.checked = checked;
     }
 
     @Basic
@@ -114,5 +114,15 @@ public class Message {
 
                 "][checked=" + (checked==1?true:false) +
                 "]}";
+    }
+
+    @Basic
+    @Column(name = "isSecret")
+    public int getIsSecret() {
+        return isSecret;
+    }
+
+    public void setIsSecret(int isSecret) {
+        this.isSecret = isSecret;
     }
 }

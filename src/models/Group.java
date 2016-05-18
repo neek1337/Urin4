@@ -3,14 +3,14 @@ package models;
 import javax.persistence.*;
 
 /**
- * Created by neek on 05.05.2016.
+ * Created by neek on 06.05.16.
  */
 @Entity
-@Table(name = "groups", schema = "test")
-public class Groups {
+@Table(name = "group", schema = "test")
+public class Group {
     private int id;
     private String name;
-    private int userId;
+    private String groupcol;
 
     @Id
     @Column(name = "id")
@@ -33,13 +33,13 @@ public class Groups {
     }
 
     @Basic
-    @Column(name = "user_id")
-    public int getUserId() {
-        return userId;
+    @Column(name = "groupcol")
+    public String getGroupcol() {
+        return groupcol;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setGroupcol(String groupcol) {
+        this.groupcol = groupcol;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class Groups {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Groups that = (Groups) o;
+        Group group = (Group) o;
 
-        if (id != that.id) return false;
-        if (userId != that.userId) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (id != group.id) return false;
+        if (name != null ? !name.equals(group.name) : group.name != null) return false;
+        if (groupcol != null ? !groupcol.equals(group.groupcol) : group.groupcol != null) return false;
 
         return true;
     }
@@ -60,7 +60,7 @@ public class Groups {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + userId;
+        result = 31 * result + (groupcol != null ? groupcol.hashCode() : 0);
         return result;
     }
 }

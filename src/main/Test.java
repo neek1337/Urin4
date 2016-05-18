@@ -1,7 +1,11 @@
 package main;
 
+import models.Group;
 import models.Message;
+import models.User;
 import models.Utils;
+
+import java.util.ArrayList;
 
 /**
  * Created by neek on 05.05.2016.
@@ -17,7 +21,9 @@ public class Test {
 //        message.setHash("***");
 //        message.setText("Hello");
 //        utils.updateMessage(message);
-        utils.getMessagesFrom(1);
-
+        ArrayList<Group> groups = utils.getGroups();
+        for (Group group : groups) {
+            System.out.println(group.getName());
+        }
     }
 }

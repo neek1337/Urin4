@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Utils {
 
-    public void addUser(Users user) {
+    public void addUser(User user) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             Transaction transaction = session.beginTransaction();
@@ -23,12 +23,12 @@ public class Utils {
         }
     }
 
-    public Users getUser(int id) {
-        Users user = new Users();
+    public User getUser(int id) {
+        User user = new User();
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            user.setUser((Users) session.get(Users.class, id));
+            user.setUser((User) session.get(User.class, id));
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -42,7 +42,7 @@ public class Utils {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            result = (Integer) session.createSQLQuery("SELECT id FROM users WHERE users.login = :name").setParameter("name", login).list().get(0);
+            result = (Integer) session.createSQLQuery("SELECT id FROM user WHERE user.login = :name").setParameter("name", login).list().get(0);
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -51,12 +51,12 @@ public class Utils {
         return result;
     }
 
-    public ArrayList<Users> getUsers() {
-        ArrayList<Users> usersArrayList = null;
+    public ArrayList<User> getUsers() {
+        ArrayList<User> usersArrayList = null;
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            usersArrayList = (ArrayList<Users>) session.createCriteria(Users.class).list();
+            usersArrayList = (ArrayList<User>) session.createCriteria(User.class).list();
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -65,7 +65,21 @@ public class Utils {
         return usersArrayList;
     }
 
-    public void addGroup(Groups group) {
+    public ArrayList<Group> getGroups() {
+        ArrayList<Group> usersArrayList = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            usersArrayList = (ArrayList<Group>) session.createQuery("SELECT g FROM  Group g GROUP BY g.name").list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return usersArrayList;
+    }
+
+    public void addGroup(Group group) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             Transaction transaction = session.beginTransaction();
@@ -78,17 +92,19 @@ public class Utils {
         }
     }
 
-    public ArrayList<Users> getGroup(String name1) {
-        ArrayList<Users> usersArrayList = new ArrayList<>();
+    public ArrayList<User> getGroup(String name1) {
+        ArrayList<User> usersArrayList = new ArrayList<>();
         Session session = null;
-        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<String> ids = new ArrayList<>();
         try {
             session = HibernateUtil.getSessionFactory().openSession();
 
-            ids = (ArrayList<Integer>) session.createSQLQuery("SELECT user_id FROM groups WHERE groups.name = :name").setParameter("name", name1).list();
+            ids = (ArrayList<String>) session.createSQLQuery("SELECT groupcol FROM test.group WHERE group.name = :name").setParameter("name", name1).list();
 
-            for (Integer id : ids) {
-                usersArrayList.add(getUser(id));
+            for (String id : ids) {
+                if (id != null) {
+                    usersArrayList.add(getUser(getUserId(id)));
+                }
             }
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -134,7 +150,7 @@ public class Utils {
             Query query = session.createQuery("from Message where toId = :code ");
             query.setParameter("code", userId);
 
-             messages = (ArrayList<Message>) query.list();
+            messages = (ArrayList<Message>) query.list();
 
         } catch (HibernateException e) {
             e.printStackTrace();

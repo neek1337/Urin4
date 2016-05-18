@@ -3,20 +3,14 @@ package models;
 import javax.persistence.*;
 
 /**
- * Created by neek on 05.05.2016.
+ * Created by neek on 06.05.16.
  */
 @Entity
-@Table(name = "users", schema = "test")
-public class Users {
+@Table(name = "user", schema = "test")
+public class User {
     private int id;
     private String login;
     private String password;
-
-    public void setUser(Users user) {
-        this.id = user.id;
-        this.login = user.login;
-        this.password = user.password;
-    }
 
     @Id
     @Column(name = "id")
@@ -53,11 +47,10 @@ public class Users {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Users that = (Users) o;
+        User user = (User) o;
 
-        if (id != that.id) return false;
-        if (login != null ? !login.equals(that.login) : that.login != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (id != user.id) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
 
         return true;
     }
@@ -66,7 +59,12 @@ public class Users {
     public int hashCode() {
         int result = id;
         result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+    public void setUser(User user){
+        this.id=user.id;
+        this.login=user.login;
+        this.password=user.password;
     }
 }
